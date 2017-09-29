@@ -1,7 +1,8 @@
 <section class="hero is-success is-fullheight">
   <!-- Hero header: will stick at the top -->
   <div class="hero-head">
-    <header class="nav">
+    
+    <header *ngIf="!started" class="nav">
       <div class="nav-center">
         <nav class="tabs is-medium is-left">
           <ul>
@@ -18,23 +19,45 @@
         </nav>
       </div>    
     </header>
+
+    <header *ngIf="started" class="nav">
+        <div class="nav-center"></div>
+    </header>
+
   </div>
 
   <!-- Hero content: will be in the middle -->
   <div class="hero-body">
     
     <div *ngIf="!started" class="container has-text-centered">
-      <h1 class="title">
-        Select language and level of vocabulary to test before you begin.
-      </h1>
-      <button class="button is-large" (click)="startGame()">
+      <nav class="level">
+          <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Language</p>
+                <p class="title">
+                  {{ language === 'de' ? 'German' : 'English' }} 
+                  <i class="fa fa-long-arrow-right" aria-hidden="true"></i>                  
+                  {{ language === 'de' ? 'English' : 'German' }} 
+                </p>
+              </div>
+            </div>
+            <div class="level-item has-text-centered">
+              <div>
+                <p class="heading">Vocab level</p>
+                <p class="title">{{ level }}</p>
+              </div>
+            </div>
+      </nav>
+
+      <button class="button is-large is-start" (click)="startGame()">
           <i class="fa fa-play-circle" aria-hidden="true"></i>&ensp;Start
       </button>
     </div>
 
   <div *ngIf="started" class="container has-text-centered">
-    <h1 class="title">OK!</h1>
-    <app-game [language]="language" [level]="level"></app-game>
+    <app-game [language]="language" [level]="level" 
+      (pageChange)="onEvent($event)">
+    </app-game>
   </div>
 
   </div>

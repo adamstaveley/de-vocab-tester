@@ -30,4 +30,8 @@ export class AppComponent {
     setTimeout(() => this.started = true, 250);
   }
 
+  onEvent(pageChange: boolean): void {
+    this.started = pageChange;
+  }
+
 }

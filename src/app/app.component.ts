@@ -6,32 +6,26 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  language = 'de';
-  level = 1;
-  started = false;
+  state = {
+    language: 'de',
+    level: 1,
+    started: false
+  };
 
   checkLanguageToggle(code: string): any {
-    return this.language === code ? 'is-active' : null;
+    return this.state.language === code ? 'is-active' : null;
   }
 
-  checkLevelToggle(code: number): any {
-    return this.level === code ? 'is-active' : null;
-  }
-
-  setLanguage(code: string): void {
-    this.language = code;
-  }
-
-  setLevel(code: number): void {
-    this.level = code;
+  setState(key: string, value: any): void {
+    this.state[key] = value;
   }
 
   startGame(): void {
-    setTimeout(() => this.started = true, 250);
+    setTimeout(() => this.state.started = true, 250);
   }
 
   onEvent(pageChange: boolean): void {
-    this.started = pageChange;
+    this.state.started = pageChange;
   }
 
 }

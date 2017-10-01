@@ -1,11 +1,11 @@
 <section class="hero is-success is-fullheight">
   <!-- Hero header: will stick at the top -->
-  <app-header [state]="state" (updatedState)="setState($event)"></app-header>
+  <app-header [state]="state" [gameState]="gameState" (updatedState)="setState($event)"></app-header>
 
   <!-- Hero content: will be in the middle -->
   <div class="hero-body">
-      <div class="container has-text-centered">
-      <app-body [state]="state" (updatedState)="setState($event)"></app-body>
+      <div class="container">
+      <app-body [state]="state" (updatedState)="setState($event)" (updatedGameState)="setGameState($event)"></app-body>
     </div>
   </div>
 

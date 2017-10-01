@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { State, NewState } from '../types/state';
+import { State, GameState, NewState } from '../types/types';
 
 @Component({
     selector: 'app-header',
@@ -9,6 +9,7 @@ import { State, NewState } from '../types/state';
 
 export class HeaderComponent {
     @Input() state: State;
+    @Input() gameState: GameState;
     @Output() updatedState = new EventEmitter<NewState>();
 
     setState(newState: NewState): void {

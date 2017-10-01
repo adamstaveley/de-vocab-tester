@@ -1,3 +1,43 @@
 <div>
-    <button class="button is-large" (click)="previousScreen()">Back</button>
+    <div class="card">
+        <header class="card-header">
+            <p class="card-header-title is-size-4">
+                {{ wordObj.word }}
+            </p>
+        </header>
+        <div class="card-content">
+            <div class="content">
+                
+                <div class="field has-addons">
+                    <div class="control has-icons-left is-expanded">
+                        <input class="input" type="text">
+                        <span class="icon is-small is-left">
+                            <i class="fa fa-globe"></i>
+                        </span>
+                    </div>
+                    <div>
+                        <a class="button is-info">Check</a>
+                    </div>
+                </div>
+
+                <div>
+                    <a class="button"><i class="fa fa-repeat" aria-hidden="true"></i></a>
+                    <a class="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
+                    <a class="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+                </div>
+
+            </div>
+        </div>
+        <footer class="card-footer">
+            <a class="card-footer-item">
+                <i class="fa fa-check" aria-hidden="true"></i>&ensp;End
+            </a>
+            <a class="card-footer-item" (click)="showHint()">
+                <i class="fa fa-question" aria-hidden="true"></i>&ensp;Hint
+            </a>
+            <a class="card-footer-item" (click)="nextWord()">
+                <i class="fa fa-arrow-right" aria-hidden="true"></i>&ensp;Next
+            </a>            
+        </footer>
+    </div>
 </div>

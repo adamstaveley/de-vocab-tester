@@ -23,7 +23,7 @@
     </button>
 </div>
 
-<div *ngIf="state.started" class="container has-text-centered">
-    <app-game [state]="state" (pageChange)="setState($event)">
+<div *ngIf="state.started" class="container">
+    <app-game [state]="state" (gameStateEmitter)="setGameState($event)">
     </app-game>
 </div>

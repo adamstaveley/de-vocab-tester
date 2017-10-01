@@ -1,4 +1,6 @@
 <div class="hero-head">
+
+    <!-- Not started state  -->
         
     <header *ngIf="!state.started" class="nav">
         <div class="nav-center">
@@ -21,8 +23,21 @@
         </div>    
     </header>
 
+    <!-- Started state -->
+
     <header *ngIf="state.started" class="nav">
-        <div class="nav-center"></div>
+        <div class="container">
+            <div class="nav-left">
+                <div class="nav-item">
+                    {{ gameState.hint }}
+                </div>
+            </div>
+            <div class="nav-right">
+                <div class="nav-item">
+                    {{ gameState.correct }}/{{ gameState.total }}
+                </div>
+            </div>
+        </div>
     </header>
 
 </div>

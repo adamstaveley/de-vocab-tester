@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { State, NewState } from './types/state';
+import { State, GameState, NewState } from './types/types';
 
 @Component({
   selector: 'app-root',
@@ -8,20 +8,31 @@ import { State, NewState } from './types/state';
 })
 
 export class AppComponent {
-  state: State = {
-    language: 'de',
-    level: 1,
-    started: false
-  };
+  state: State;
+  gameState: GameState;
 
   constructor() {
-    console.log(this.state);
-    // this.state.language = 'de';
-    // this.state.level = 1;
-    // this.state.started = false;
+    this.state = {
+      language: 'de',
+      level: 1,
+      started: false,
+      finished: false
+    };
+
+    this.gameState = {
+      correct: 0,
+      total: 0,
+      hint: '',
+      hintCountCurrent: 0,
+      hintCountTotal: 0
+    };
   }
 
   setState(newState: NewState): void {
     this.state[newState.key] = newState.value;
+  }
+
+  setGameState(newGameState) {
+    this.gameState = newGameState;
   }
 }

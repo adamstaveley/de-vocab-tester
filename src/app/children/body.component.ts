@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { State, NewState } from '../types/state';
+import { State, GameState, NewState } from '../types/types';
 
 @Component({
     selector: 'app-body',
@@ -10,17 +10,18 @@ import { State, NewState } from '../types/state';
 export class BodyComponent {
     @Input() state: State;
     @Output() updatedState = new EventEmitter<NewState>();
+    @Output() updatedGameState = new EventEmitter<GameState>();
 
     setState(newState: NewState): void {
         this.updatedState.emit(newState);
     }
 
-    startGame(): void {
-        setTimeout(() => this.setState({key: 'started', value: true}), 250);
+    setGameState(newGameState: GameState) {
+        this.updatedGameState.emit(newGameState);
     }
 
-    onEvent(pageChange: boolean): void {
-        this.state.started = pageChange;
+    startGame(): void {
+        setTimeout(() => this.setState({key: 'started', value: true}), 250);
     }
 }
 

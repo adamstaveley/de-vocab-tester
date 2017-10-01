@@ -1,0 +1,29 @@
+<div *ngIf="!state.started" class="container has-text-centered">
+    <nav class="level">
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Language</p>
+                <p class="title">
+                    {{ state.language === 'de' ? 'German' : 'English' }} 
+                    <i class="fa fa-long-arrow-right" aria-hidden="true"></i>                  
+                    {{ state.language === 'de' ? 'English' : 'German' }} 
+                </p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Vocab level</p>
+                <p class="title">{{ state.level }}</p>
+            </div>
+        </div>
+    </nav>
+
+    <button class="button is-info is-outlined is-inverted is-large is-start" (click)="startGame()">
+        <i class="fa fa-play-circle" aria-hidden="true"></i>&ensp;Start
+    </button>
+</div>
+
+<div *ngIf="state.started" class="container has-text-centered">
+    <app-game [state]="state" (pageChange)="setState($event)">
+    </app-game>
+</div>

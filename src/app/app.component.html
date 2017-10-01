@@ -1,66 +1,12 @@
 <section class="hero is-success is-fullheight">
   <!-- Hero header: will stick at the top -->
-  <div class="hero-head">
-    
-    <header *ngIf="!state.started" class="nav">
-      <div class="nav-center">
-        <nav class="tabs is-medium is-left">
-          <ul *ngFor="let lang of ['de', 'en']">
-            <li [class]="state.language === lang ? 'is-active' : null" (click)="setState('language', lang)">
-              <a>{{ lang.toUpperCase() }}</a>
-            </li>
-          </ul>
-        </nav>
-      </div>
-      <div class="nav-center">
-        <nav class="tabs is-medium is-right">
-          <ul *ngFor="let i of [1, 2, 3]">
-            <li [class]="state.level === i ? 'is-active' : null" (click)="setState('level', i)">
-              <a>{{i}}</a>
-            </li>
-          </ul>
-        </nav>
-      </div>    
-    </header>
-
-    <header *ngIf="state.started" class="nav">
-        <div class="nav-center"></div>
-    </header>
-
-  </div>
+  <app-header [state]="state" (updatedState)="setState($event)"></app-header>
 
   <!-- Hero content: will be in the middle -->
   <div class="hero-body">
-    
-    <div *ngIf="!state.started" class="container has-text-centered">
-      <nav class="level">
-          <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Language</p>
-                <p class="title">
-                  {{ state.language === 'de' ? 'German' : 'English' }} 
-                  <i class="fa fa-long-arrow-right" aria-hidden="true"></i>                  
-                  {{ state.language === 'de' ? 'English' : 'German' }} 
-                </p>
-              </div>
-            </div>
-            <div class="level-item has-text-centered">
-              <div>
-                <p class="heading">Vocab level</p>
-                <p class="title">{{ state.level }}</p>
-              </div>
-            </div>
-      </nav>
-
-      <button class="button is-info is-outlined is-inverted is-large is-start" (click)="startGame()">
-          <i class="fa fa-play-circle" aria-hidden="true"></i>&ensp;Start
-      </button>
+      <div class="container has-text-centered">
+      <app-body [state]="state" (updatedState)="setState($event)"></app-body>
     </div>
-
-    <div *ngIf="state.started" class="container has-text-centered">
-      <app-game [language]="state.language" [level]="state.level" 
-        (pageChange)="onEvent($event)">
-      </app-game>
-    </div>
-
   </div>
+
+</section>

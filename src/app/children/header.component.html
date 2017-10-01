@@ -1,0 +1,28 @@
+<div class="hero-head">
+        
+    <header *ngIf="!state.started" class="nav">
+        <div class="nav-center">
+            <nav class="tabs is-medium is-left">
+                <ul *ngFor="let lang of ['de', 'en']">
+                <li [class]="state.language === lang ? 'is-active' : null" (click)="setState({key: 'language', value: lang})">
+                    <a>{{ lang.toUpperCase() }}</a>
+                </li>
+                </ul>
+            </nav>
+        </div>
+        <div class="nav-center">
+            <nav class="tabs is-medium is-right">
+                <ul *ngFor="let i of [1, 2, 3]">
+                <li [class]="state.level === i ? 'is-active' : null" (click)="setState({key: 'level', value: i})">
+                    <a>{{i}}</a>
+                </li>
+                </ul>
+            </nav>
+        </div>    
+    </header>
+
+    <header *ngIf="state.started" class="nav">
+        <div class="nav-center"></div>
+    </header>
+
+</div>

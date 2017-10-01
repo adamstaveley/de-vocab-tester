@@ -1,31 +1,27 @@
 import { Component } from '@angular/core';
+import { State, NewState } from './types/state';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
 export class AppComponent {
-  state = {
+  state: State = {
     language: 'de',
     level: 1,
     started: false
   };
 
-  checkLanguageToggle(code: string): any {
-    return this.state.language === code ? 'is-active' : null;
+  constructor() {
+    console.log(this.state);
+    // this.state.language = 'de';
+    // this.state.level = 1;
+    // this.state.started = false;
   }
 
-  setState(key: string, value: any): void {
-    this.state[key] = value;
+  setState(newState: NewState): void {
+    this.state[newState.key] = newState.value;
   }
-
-  startGame(): void {
-    setTimeout(() => this.state.started = true, 250);
-  }
-
-  onEvent(pageChange: boolean): void {
-    this.state.started = pageChange;
-  }
-
 }

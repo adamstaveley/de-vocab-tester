@@ -2,27 +2,3 @@
     /* background-color: #0d4b7a; */
     background-image: linear-gradient(to top, #30cfd0 0%, #330867 100%);
 }
-
-.hero.is-success .tabs.is-boxed li.is-active a, .hero.is-success .tabs.is-boxed li.is-active a:hover, .hero.is-success .tabs.is-toggle li.is-active a, .hero.is-success .tabs.is-toggle li.is-active a:hover {
-    color: #0d4b7a;
-}
-
-.tabs li.is-active a {
-    border-bottom-color: #ffb219;
-    border-bottom-width: 2px;
-    color: #ffb219;
-}
-
-.tabs a {
-    border-bottom-width: 0;
-}
-
-.button.is-start {
-    margin-top: 100px;
-}
-
-@media(max-width: 350px) {
-    .button.is-start {
-        margin-top: 50px;
-    }
-}

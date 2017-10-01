@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NewState } from '../types/state';
 
 @Component({
     selector: 'app-game',
@@ -7,12 +8,11 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 
 export class GameComponent {
-    @Input() language: string;
-    @Input() level: number;
+    @Input() state;
 
-    @Output() pageChange: EventEmitter<boolean> = new EventEmitter<boolean>();
+    @Output() pageChange = new EventEmitter<NewState>();
 
-    previousScreenChange() {
-        this.pageChange.emit(false);
+    previousScreen() {
+        this.pageChange.emit({key: 'started', value: false});
     }
 }

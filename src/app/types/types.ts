@@ -6,11 +6,14 @@ export interface State {
 }
 
 export interface GameState {
-    correct: number;
-    total: number;
+    playedCountCorrect: number;
+    playedCountTotal: number;
     hint: string;
     hintCountCurrent: number;
     hintCountTotal: number;
+    startTime: number;
+    endTime: number;
+    statusText: string;
 }
 
 export interface NewState {

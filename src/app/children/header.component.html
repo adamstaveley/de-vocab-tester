@@ -29,12 +29,12 @@
         <div class="container">
             <div class="nav-left">
                 <div class="nav-item">
-                    {{ gameState.hint }}
+                    {{ gameState.statusText || gameState.hint }}
                 </div>
             </div>
             <div class="nav-right">
                 <div class="nav-item">
-                    {{ gameState.correct }}/{{ gameState.total }}
+                    {{ gameState.playedCountCorrect }}/{{ gameState.playedCountTotal }}
                 </div>
             </div>
         </div>

@@ -36,20 +36,31 @@
                 
                 <div class="field has-addons">
                     <div class="control has-icons-left is-expanded">
-                        <input class="input" type="text">
+                        <input class="input" type="text" [(ngModel)]="answer" required>
                         <span class="icon is-small is-left">
                             <i class="fa fa-globe"></i>
                         </span>
                     </div>
                     <div>
-                        <a class="button is-info">Check</a>
+                        <button class="button is-info" [disabled]="!answer.length > 0" (click)="submitTranslation()"
+                            >Check
+                        </button>
                     </div>
                 </div>
 
                 <div>
-                    <a class="button"><i class="fa fa-repeat" aria-hidden="true"></i></a>
-                    <a class="button"><i class="fa fa-thumbs-up" aria-hidden="true"></i></a>
-                    <a class="button"><i class="fa fa-thumbs-down" aria-hidden="true"></i></a>
+                    <button class="button" (click)="retry()" [disabled]="!answered">
+                        <i class="fa fa-repeat" aria-hidden="true"></i>
+                    </button>
+                    <button class="button" (click)="showAnswer()" [disabled]="!answered">
+                        <i class="fa fa-eye" aria-hidden="true"></i>
+                    </button>
+                    <button class="button" [disabled]="!feedback">
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>
+                    </button>
+                    <button class="button" [disabled]="!feedback">
+                        <i class="fa fa-thumbs-down" aria-hidden="true"></i>
+                    </button>
                 </div>
     
             </div>

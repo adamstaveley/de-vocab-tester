@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { State, GameState, NewState, WordResponse } from '../types/types';
+import { defaultGameState } from '../types/defaults';
 
 @Component({
     selector: 'app-body',
@@ -8,7 +9,7 @@ import { State, GameState, NewState, WordResponse } from '../types/types';
     styleUrls: ['body.component.css']
 })
 
-export class BodyComponent implements OnInit {
+export class BodyComponent {
     @Input() state: State;
     @Output() stateEmitter = new EventEmitter<NewState>();
     @Output() gameStateEmitter = new EventEmitter<GameState>();
@@ -16,23 +17,19 @@ export class BodyComponent implements OnInit {
     gameState: GameState;
     wordObj: WordResponse;
 
+    answer = '';
+    showResult = false;
+    result: string;
+    answered = false;
+    feedback = false;
+
     constructor(private http: HttpClient) {
         this.wordObj = {
             word: '',
             translation: ''
         };
 
-        this.gameState = {
-            correct: 0,
-            total: 0,
-            hint: '',
-            hintCountCurrent: 0,
-            hintCountTotal: 0,
-        };
-    }
-
-    ngOnInit(): void {
-        this.fetchWord();
+        this.gameState = Object.create(defaultGameState);
     }
 
     setState(newState: NewState): void {
@@ -44,28 +41,25 @@ export class BodyComponent implements OnInit {
     }
 
     changeStartedState(): void {
-        if (this.state.started) {   // PLACEHOLDER !!!
-            this.gameState = {
-                correct: 0,
-                total: 0,
-                hint: '',
-                hintCountCurrent: 0,
-                hintCountTotal: 0,
-            };
-            this.emitGameState(this.gameState);
+        this.fetchWord();
+        if (this.state.started) {                                  //
+            this.gameState = Object.create(defaultGameState);      // PLACEHOLDER
+            this.emitGameState(this.gameState);                    //
         }
         setTimeout(() => this.setState({key: 'started', value: !this.state.started}), 250);
     }
 
     showHint(): void {
-        if (this.gameState.hintCountCurrent <= this.wordObj.translation.length) {
+        if (this.gameState.hintCountCurrent <= this.wordObj.translation.replace(/\s\(irr\.\)/, '').length) {
             this.manageHints();
         }
     }
 
     manageHints(): void {
         if (this.gameState.hintCountCurrent < 1) {
+            const irregular = this.wordObj.translation.search(/\(irr\.\)/) > -1;
             this.gameState.hint = this.wordObj.translation.replace(/\w/g, '_');
+            if (irregular) { this.gameState.hint = this.gameState.hint.replace('(___.)', '(irr.)'); }
             this.gameState.hint += `(${this.wordObj.translation.length})`;
         } else {
             const index = this.randomIndex();
@@ -87,10 +81,37 @@ export class BodyComponent implements OnInit {
         this.gameState.hint = hint.substr(0, index) + newChar + hint.substr(index + newChar.length);
     }
 
+    submitTranslation(): void {
+        this.wordObj.translation.includes(this.answer) ? this.correctAnswer() : this.wrongAnswer();
+    }
+
+    correctAnswer() {
+        this.gameState.playedCountCorrect ++;
+        this.answer = '';
+        this.nextWord();
+    }
+
+    wrongAnswer() {
+        this.gameState.statusText = 'Incorrect!';
+        this.answered = true;
+    }
+
+    retry() {
+        this.gameState.statusText = '';
+        this.answer = '';
+        this.answered = false;
+    }
+
+    showAnswer() {
+        this.answered = false;
+        this.gameState.statusText = this.wordObj.translation;
+        this.feedback = true;
+    }
+
     nextWord(): void {
         this.fetchWord();
         this.gameState.hint = '';
-        this.gameState.total ++;
+        this.gameState.playedCountTotal ++;
         this.gameState.hintCountCurrent = 0;
         this.emitGameState(this.gameState);
     }

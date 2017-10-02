@@ -1,5 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { State, GameState, NewState } from '../types/types';
+import { Component, EventEmitter, Input, Output, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { State, GameState, NewState, WordResponse } from '../types/types';
 
 @Component({
     selector: 'app-body',
@@ -7,21 +8,95 @@ import { State, GameState, NewState } from '../types/types';
     styleUrls: ['body.component.css']
 })
 
-export class BodyComponent {
+export class BodyComponent implements OnInit {
     @Input() state: State;
-    @Output() updatedState = new EventEmitter<NewState>();
-    @Output() updatedGameState = new EventEmitter<GameState>();
+    @Output() stateEmitter = new EventEmitter<NewState>();
+    @Output() gameStateEmitter = new EventEmitter<GameState>();
+
+    gameState: GameState;
+    wordObj: WordResponse;
+
+    constructor(private http: HttpClient) {
+        this.wordObj = {
+            word: '',
+            translation: ''
+        };
+
+        this.gameState = {
+            correct: 0,
+            total: 0,
+            hint: '',
+            hintCountCurrent: 0,
+            hintCountTotal: 0,
+        };
+    }
+
+    ngOnInit(): void {
+        this.fetchWord();
+    }
 
     setState(newState: NewState): void {
-        this.updatedState.emit(newState);
+        this.stateEmitter.emit(newState);
     }
 
-    setGameState(newGameState: GameState) {
-        this.updatedGameState.emit(newGameState);
+    emitGameState(newGameState: GameState): void {
+        this.gameStateEmitter.emit(newGameState);
     }
 
-    startGame(): void {
-        setTimeout(() => this.setState({key: 'started', value: true}), 250);
+    changeStartedState(): void {
+        if (this.state.started) {   // PLACEHOLDER !!!
+            this.gameState = {
+                correct: 0,
+                total: 0,
+                hint: '',
+                hintCountCurrent: 0,
+                hintCountTotal: 0,
+            };
+            this.emitGameState(this.gameState);
+        }
+        setTimeout(() => this.setState({key: 'started', value: !this.state.started}), 250);
+    }
+
+    showHint(): void {
+        if (this.gameState.hintCountCurrent <= this.wordObj.translation.length) {
+            this.manageHints();
+        }
+    }
+
+    manageHints(): void {
+        if (this.gameState.hintCountCurrent < 1) {
+            this.gameState.hint = this.wordObj.translation.replace(/\w/g, '_');
+            this.gameState.hint += `(${this.wordObj.translation.length})`;
+        } else {
+            const index = this.randomIndex();
+            this.insertNewCharacterHint(index);
+        }
+        this.gameState.hintCountCurrent ++;
+        this.gameState.hintCountTotal ++;
+        this.emitGameState(this.gameState);
+    }
+
+    randomIndex(): number {
+        const index = Math.floor(Math.random() * this.wordObj.translation.length);
+        return this.gameState.hint[index].search('_') > -1 ? index : this.randomIndex();
+    }
+
+    insertNewCharacterHint(index: number): void {
+        const hint = this.gameState.hint;
+        const newChar = this.wordObj.translation[index];
+        this.gameState.hint = hint.substr(0, index) + newChar + hint.substr(index + newChar.length);
+    }
+
+    nextWord(): void {
+        this.fetchWord();
+        this.gameState.hint = '';
+        this.gameState.total ++;
+        this.gameState.hintCountCurrent = 0;
+        this.emitGameState(this.gameState);
+    }
+
+    fetchWord(): void  {
+        const url = `http://localhost:8200/word/${this.state.language}/${this.state.level}`;
+        this.http.get<WordResponse>(url).subscribe(res => this.wordObj = res);
     }
 }
-

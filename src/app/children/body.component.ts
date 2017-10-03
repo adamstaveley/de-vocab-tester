@@ -18,8 +18,6 @@ export class BodyComponent {
     wordObj: WordResponse;
 
     answer = '';
-    showResult = false;
-    result: string;
     answered = false;
     feedback = false;
 
@@ -32,7 +30,7 @@ export class BodyComponent {
         this.gameState = Object.create(defaultGameState);
     }
 
-    setState(newState: NewState): void {
+    emitState(newState: NewState): void {
         this.stateEmitter.emit(newState);
     }
 
@@ -46,7 +44,7 @@ export class BodyComponent {
             this.gameState = Object.create(defaultGameState);      // PLACEHOLDER
             this.emitGameState(this.gameState);                    //
         }
-        setTimeout(() => this.setState({key: 'started', value: !this.state.started}), 250);
+        setTimeout(() => this.emitState({key: 'started', value: !this.state.started}), 250);
     }
 
     showHint(): void {
@@ -82,35 +80,43 @@ export class BodyComponent {
     }
 
     submitTranslation(): void {
-        this.wordObj.translation.includes(this.answer) ? this.correctAnswer() : this.wrongAnswer();
+        if (this.wordObj.translation.includes(this.answer)) {
+            this.gameState.playedCountCorrect ++;
+            this.answer = '';
+            this.nextWord();
+        } else {
+            this.gameState.statusText = 'Incorrect!';
+            this.answered = true;
+        }
+        this.emitGameState(this.gameState);
     }
 
-    correctAnswer() {
-        this.gameState.playedCountCorrect ++;
-        this.answer = '';
-        this.nextWord();
-    }
-
-    wrongAnswer() {
-        this.gameState.statusText = 'Incorrect!';
-        this.answered = true;
-    }
-
-    retry() {
-        this.gameState.statusText = '';
-        this.answer = '';
+    incorrectOptions(choice: string): void {
         this.answered = false;
+        switch (choice) {
+            case 'retry':
+                this.gameState.statusText = '';
+                this.answer = '';
+                break;
+            case 'show':
+                this.gameState.statusText = this.wordObj.translation;
+                this.feedback = true;
+        }
     }
 
-    showAnswer() {
-        this.answered = false;
-        this.gameState.statusText = this.wordObj.translation;
-        this.feedback = true;
+    answerFeedback(positive: boolean): void {
+        if (positive) {
+            this.nextWord();
+        } else {
+            this.nextWord();
+        }
     }
 
     nextWord(): void {
         this.fetchWord();
+        this.answer = '';
         this.gameState.hint = '';
+        this.gameState.statusText = '';
         this.gameState.playedCountTotal ++;
         this.gameState.hintCountCurrent = 0;
         this.emitGameState(this.gameState);

@@ -49,16 +49,16 @@
                 </div>
 
                 <div>
-                    <button class="button" (click)="retry()" [disabled]="!answered">
+                    <button class="button" (click)="incorrectOptions('retry')" [disabled]="!answered">
                         <i class="fa fa-repeat" aria-hidden="true"></i>
                     </button>
-                    <button class="button" (click)="showAnswer()" [disabled]="!answered">
+                    <button class="button" (click)="incorrectOptions('show')" [disabled]="!answered">
                         <i class="fa fa-eye" aria-hidden="true"></i>
                     </button>
-                    <button class="button" [disabled]="!feedback">
+                    <button class="button" (click)="answerFeedback(true)" [disabled]="!feedback">
                         <i class="fa fa-thumbs-up" aria-hidden="true"></i>
                     </button>
-                    <button class="button" [disabled]="!feedback">
+                    <button class="button" (click)="answerFeedback(false)" [disabled]="!feedback">
                         <i class="fa fa-thumbs-down" aria-hidden="true"></i>
                     </button>
                 </div>

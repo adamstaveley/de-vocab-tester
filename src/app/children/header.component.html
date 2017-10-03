@@ -2,7 +2,7 @@
 
     <!-- Not started state  -->
         
-    <header *ngIf="!state.started" class="nav">
+    <header *ngIf="!state.started && !state.finished" class="nav">
         <div class="nav-center">
             <nav class="tabs is-medium is-left">
                 <ul *ngFor="let lang of ['de', 'en']">
@@ -35,6 +35,18 @@
             <div class="nav-right">
                 <div class="nav-item">
                     {{ gameState.playedCountCorrect }}/{{ gameState.playedCountTotal }}
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Finished State -->
+
+    <header *ngIf="state.finished" class="nav">
+        <div class="container">
+            <div class="nav-center">
+                <div class="nav-item">
+                    Your statistics
                 </div>
             </div>
         </div>

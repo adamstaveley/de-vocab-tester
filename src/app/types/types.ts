@@ -9,8 +9,8 @@ export interface GameState {
     playedCountCorrect: number;
     playedCountTotal: number;
     hint: string;
-    hintCountCurrent: number;
     hintCountTotal: number;
+    retryCount: number;
     startTime: number;
     endTime: number;
     statusText: string;

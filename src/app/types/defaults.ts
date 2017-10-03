@@ -11,9 +11,9 @@ export let defaultGameState: GameState = {
     playedCountCorrect: 0,
     playedCountTotal: 0,
     hint: '',
-    hintCountCurrent: 0,
     hintCountTotal: 0,
-    startTime: new Date().getTime(),
+    retryCount: 0,
+    startTime: 0,
     endTime: 0,
     statusText: ''
 };

@@ -1,4 +1,4 @@
-<div *ngIf="!state.started" class="container has-text-centered">
+<div *ngIf="!state.started && !state.finished" class="container has-text-centered">
     <nav class="level">
         <div class="level-item has-text-centered">
             <div>
@@ -81,3 +81,48 @@
     </div>
 
 </div>
+
+<div *ngIf="state.finished" class="container has-text-centered">
+
+    <nav class="level">
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Words</p>
+                <p class="title">{{ gameState.playedCountTotal }}</p>
+            </div>
+        </div>      
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Correct</p>
+                <p class="title">{{ ((gameState.playedCountCorrect / gameState.playedCountTotal * 100) || 0.0).toFixed() }}%</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Average Hints Used</p>
+                <p class="title">{{ ((gameState.hintCountTotal / (gameState.playedCountTotal || 1)) || 0.0).toFixed() }}</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Average Retries</p>
+                <p class="title">{{ ((gameState.retryCount / (gameState.playedCountTotal || 1)) || 0.0).toFixed() }}</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Time Played</p>
+                <p class="title">{{ ((gameState.endTime - gameState.startTime) / 1000).toFixed(1) }}s</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Time per Word</p>
+                <p class="title">{{ ((gameState.endTime - gameState.startTime) / (gameState.playedCountTotal || 1) / 1000).toFixed(1) }}s</p>
+            </div>
+        </div>
+    </nav>
+
+    <button class="button is-info is-outlined is-inverted" (click)="changeStartedState()">Restart</button>
+
+</div> 

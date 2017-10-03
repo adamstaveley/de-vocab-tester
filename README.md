@@ -24,6 +24,6 @@ Make sure to start the backend to retrieve words - see [de-vt-backend](https://g
 
 ## Screenshots
 
-![start](https://github.com/adamstaveley/de-vocabulary-tester/blob/master/screenshots/start.png)
-![game](https://github.com/adamstaveley/de-vocabulary-tester/blob/master/screenshots/game.png)
-![end](https://github.com/adamstaveley/de-vocabulary-tester/blob/master/screenshots/end.png)
+![start](https://github.com/adamstaveley/de-vocab-tester/blob/master/screenshots/start.png)
+![game](https://github.com/adamstaveley/de-vocab-tester/blob/master/screenshots/game.png)
+![end](https://github.com/adamstaveley/de-vocab-tester/blob/master/screenshots/end.png)
